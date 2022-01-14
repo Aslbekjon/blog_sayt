@@ -1,0 +1,42 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+{% if del.user_id.username == user.username and del.user_id.password == user.password %}
+
+<div class="jumbotron">
+  <div class="container">
+      <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <h4 class="col-lg-10">{{del.name}}</h4>
+          <h5 class="mb-2 text-danger"><u>Ushbu postni o'chirishga ishonchiz komilmi</u></h5>
+          <img src="{{del.img.url}}" style="max-width: 600px; width: 100%;" alt="rasm">
+          <div class="media align-items-center shadow-none p-0 mb-0 rounded-0 mt-4 bg-transparent">
+              <button type="submit" class="media-body btn btn-danger btn-sm">O'chirish</button>
+              <a href="{% url 'detail' del.slug %}" class="media-body btn btn-info btn-sm">Ortga qaytish</a>
+          </div>
+      </form>
+  </div>
+</div>
+
+{% else %}
+<section class="error-area section-padding position-relative">
+    <span class="icon-shape icon-shape-1"></span>
+    <span class="icon-shape icon-shape-2"></span>
+    <span class="icon-shape icon-shape-3"></span>
+    <span class="icon-shape icon-shape-4"></span>
+    <span class="icon-shape icon-shape-5"></span>
+    <span class="icon-shape icon-shape-6"></span>
+    <span class="icon-shape icon-shape-7"></span>
+    <div class="container">
+        <div class="text-center">
+            <img src="{% static 'images/error-img.png' %}" alt="error-image" class="img-fluid mb-40px">
+            <h2 class="section-title pb-3">Oops! Page not found!</h2>
+            <p class="section-desc pb-4">We're sorry, we couldn't find the page you requested.</p>
+            <a class="btn theme-btn" href="{% url 'blog' %}"> Go to homepage </a>
+        </div>
+    </div><!-- end container -->
+</section>
+{% endif %}
+{% endblock %}

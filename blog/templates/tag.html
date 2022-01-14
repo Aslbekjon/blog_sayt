@@ -1,0 +1,11 @@
+<div class="card card-item">
+    <div class="card-body">
+        <h3 class="fs-17 pb-3">Teglar</h3>
+        <div class="divider"><span></span></div>
+        <div class="tags pt-4">
+            {% for i in tag %}
+                <a href="{% url 'tags' i.slug %}" class="tag-link tag-link-md">{{i.name}}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div><!-- end card -->

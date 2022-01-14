@@ -1,0 +1,166 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load blog_sidebar %}
+
+{% block content %}
+
+
+
+
+
+<!--======================================
+        START HERO AREA
+======================================-->
+<section class="hero-area pattern-bg-2 bg-white shadow-sm overflow-hidden pt-50px pb-50px">
+    <span class="stroke-shape stroke-shape-1"></span>
+    <span class="stroke-shape stroke-shape-2"></span>
+    <span class="stroke-shape stroke-shape-3"></span>
+    <span class="stroke-shape stroke-shape-4"></span>
+    <span class="stroke-shape stroke-shape-5"></span>
+    <span class="stroke-shape stroke-shape-6"></span>
+    <div class="container">
+        <div class="hero-content text-center">
+            <h2 class="section-title pb-3">Grid Right Sidebar</h2>
+            <ul class="breadcrumb-list">
+                <li><a href="#">Home</a><span><svg xmlns="http://www.w3.org/2000/svg" height="19px" viewBox="0 0 24 24" width="19px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg></span></li>
+                <li>{{category_name.name}}ga tegishli bloglar</li>
+            </ul>
+        </div><!-- end hero-content -->
+    </div><!-- end container -->
+</section><!-- end hero-area -->
+<!--======================================
+        END HERO AREA
+======================================-->
+
+<!-- ================================
+         START BLOG AREA
+================================= -->
+<section class="blog-area pt-80px pb-80px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    {% for i in category %}
+                        <div class="col-lg-6 responsive-column-half">
+                        <div class="card card-item hover-y">
+                            <a href="{% url 'detail' i.slug %}" class="card-img">
+                                <img style="height:200px" class="lazy" src="{{i.img.url}}" data-src="{{i.img.url}}" alt="Card image">
+                            </a>
+                            <div class="card-body pt-0">
+                                <a href="{% url 'detail' i.slug %}" class="card-link">{{i.name}}</a>
+                                <p class=" fw-medium">{{i.description.html|safe|truncatechars:200}}</p>
+                                <div class="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 mt-4 bg-transparent">
+                                    <a href="{% url 'detail' i.slug %}" class="media-img media-img--sm d-block mr-2 rounded-full">
+                                        <img src="{% static 'img/people.jpg' %}" alt="avatar" class="rounded-full">
+                                    </a>
+                                    <div class="media-body">
+                                        <h5 class="fs-14 fw-medium">By <a href="{% url 'detail' i.slug %}">{{i.user_id}}</a></h5>
+                                        <small class="meta d-block lh-20">
+                                            <span>{{i.created_at|date:"d-m,Y"}}</span>
+                                        </small>
+                                    </div>
+                                </div>
+                                {% if i.user_id.username == user.username %}
+                                <div class="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 mt-4 bg-transparent">
+                                    <a href="{% url 'update' i.slug%}" class="media-body btn btn-info btn-sm" role="button">Tahrirlash</a>
+                                    <a href="{% url 'delete' i.slug%}" class="media-body btn btn-danger btn-sm" role="button">O'chirish</a>
+                                </div>
+                                {% endif %}
+                            </div><!-- end card-body -->
+                        </div><!-- end card -->
+
+                    </div><!-- end col-lg-6 -->
+                    {% endfor %}
+
+                </div><!-- end row -->
+                {%  if category.has_other_pages %}
+                    <div class="pager text-center pt-30px">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination generic-pagination justify-content-center">
+                            {% if category.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{category.previous_page_number}}" aria-label="Previous">
+                                    <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% for p in category.paginator.page_range %}
+
+                                {% if category.number == p %}
+                                    <li class="page-item active"><a class="page-link" href="?page={{p}}">{{p}}</a></li>
+                                {% elif p > category.number|add:-3 and p < category.number|add:3 %}
+                                    <li class="page-item"><a class="page-link" href="?page={{p}}">{{p}}</a></li>
+
+                                {% elif p == category.number|add:-3 %}
+                                    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                                    <li class="page-item disabled"><a class="page-link" aria-disabled="true" href="#">...</a></li>
+                                {% elif p == category.number|add:3 %}
+                                    <li class="page-item disabled"><a class="page-link" aria-disabled="true" href="#">...</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{cnt}}">{{cnt}}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if category.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{category.next_page_number}}" aria-label="Next">
+                                        <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    <p class="fs-13 pt-3">Showing 1-6 results of 22 articles</p>
+                </div>
+                {% endif %}
+            </div><!-- end col-lg-8 -->
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <div class="card card-item">
+                        <div class="card-body">
+                            <h3 class="fs-17 pb-3">Search blog</h3>
+                            <div class="divider"><span></span></div>
+                            <form method="post" class="pt-4">
+                                <div class="form-group mb-0">
+                                    <input class="form-control form--control form--control-bg-gray" type="text" name="search" placeholder="Type your search words...">
+                                    <button class="form-btn" type="button"><i class="la la-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- end card -->
+
+                    {% show_categories %}
+
+                    {% show_message_link %}
+
+                    {% show_tags %}
+
+                    <div class="card card-item">
+                        <div class="card-body">
+                            <h3 class="fs-17 pb-3">Admin bilan bog'lanish</h3>
+                            <div class="divider"><span></span></div>
+                            <div class="social-icon-box pt-3">
+                                <a class="mr-1 icon-element icon-element-sm shadow-sm text-gray hover-y d-inline-block" href="https://www.facebook.com/aslbek.xafizov" target="_blank" title="Follow on Facebook">
+                                    <svg focusable="false" class="svg-inline--fa fa-facebook-f fa-w-10" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path></svg>
+                                </a>
+                                <a class="mr-1 icon-element icon-element-sm shadow-sm text-gray hover-y d-inline-block" href="https://telegram.me/Aslbek7733" target="_blank" title="Follow on Telegram">
+                                    <i class="lab la-telegram"></i>
+                                </a>
+                                <a class="mr-1 icon-element icon-element-sm shadow-sm text-gray hover-y d-inline-block" href="https://www.instagram.com/aslbekxafizov" target="_blank" title="Follow on Instagram">
+                                    <svg focusable="false" class="svg-inline--fa fa-instagram-square fa-w-14" width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224,202.66A53.34,53.34,0,1,0,277.36,256,53.38,53.38,0,0,0,224,202.66Zm124.71-41a54,54,0,0,0-30.41-30.41c-21-8.29-71-6.43-94.3-6.43s-73.25-1.93-94.31,6.43a54,54,0,0,0-30.41,30.41c-8.28,21-6.43,71.05-6.43,94.33S91,329.26,99.32,350.33a54,54,0,0,0,30.41,30.41c21,8.29,71,6.43,94.31,6.43s73.24,1.93,94.3-6.43a54,54,0,0,0,30.41-30.41c8.35-21,6.43-71.05,6.43-94.33S357.1,182.74,348.75,161.67ZM224,338a82,82,0,1,1,82-82A81.9,81.9,0,0,1,224,338Zm85.38-148.3a19.14,19.14,0,1,1,19.13-19.14A19.1,19.1,0,0,1,309.42,189.74ZM400,32H48A48,48,0,0,0,0,80V432a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V80A48,48,0,0,0,400,32ZM382.88,322c-1.29,25.63-7.14,48.34-25.85,67s-41.4,24.63-67,25.85c-26.41,1.49-105.59,1.49-132,0-25.63-1.29-48.26-7.15-67-25.85s-24.63-41.42-25.85-67c-1.49-26.42-1.49-105.61,0-132,1.29-25.63,7.07-48.34,25.85-67s41.47-24.56,67-25.78c26.41-1.49,105.59-1.49,132,0,25.63,1.29,48.33,7.15,67,25.85s24.63,41.42,25.85,67.05C384.37,216.44,384.37,295.56,382.88,322Z"></path></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div><!-- end card -->
+                </div><!-- end sidebar -->
+            </div><!-- end col-lg-4 -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section><!-- end blog-area -->
+<!-- ================================
+         END BLOG AREA
+================================= -->
+
+
+
+{% endblock %}

@@ -1,0 +1,15 @@
+<div class="card card-item">
+    <div class="card-body">
+        <h3 class="fs-17 pb-3">Categories</h3>
+        <div class="divider"><span></span></div>
+        <div class="category-list pt-4">
+            {% for i in categories %}
+                <a href="{% url 'category' i.slug %}" class="cat-item d-flex align-items-center justify-content-between mb-3 hover-y">
+                    <span class="cat-title">{{i.name}}</span>
+                    <span class="cat-number">{{i.blog_set.count}}</span>
+                </a>
+            {% endfor %}
+        </div>
+        <a href="{% url 'category_list' %}" class="" >Barchasi</a>
+    </div>
+</div><!-- end card -->

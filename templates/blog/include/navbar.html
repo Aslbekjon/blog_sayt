@@ -1,0 +1,141 @@
+{% load static %}
+<!--======================================
+        START HEADER AREA
+    ======================================-->
+<header class="header-area bg-white border-bottom border-bottom-gray">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-2">
+                <div class="logo-box">
+                    <h1 style="font-family: 'Anton', sans-serif;" class="logo">ITEG <!--<img src="{% static 'images/logo-black.png' %}" alt="logo">--></h1>
+                    <div class="user-action">
+                        <div class="off-canvas-menu-toggle icon-element icon-element-xs shadow-sm" data-toggle="tooltip" data-placement="top" title="Main menu">
+                            <i class="la la-bars"></i>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end col-lg-2 -->
+            <div class="col-lg-10">
+                <div class="menu-wrapper">
+                    <nav class="menu-bar ml-auto pr-2">
+                        <ul>
+                            <li>
+                                <a href="{% url 'blog' %}"><i class="la la-home mr-1"></i>Bosh Sahifa</a>
+                            </li>
+                            <li class="is-mega-menu">
+                                <a href="{% url 'category_list' %}"><i class="las la-stream"></i>Categories</a>
+                            </li>
+                            {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'blog_create' %}"><i class="las la-pen"></i>Blog yaratish</a>
+                            </li>
+                            {% endif %}
+                        </ul><!-- end ul -->
+                    </nav><!-- end main-menu -->
+                    <div class="nav-right-button">
+                        {% comment %}
+                        {% if user.is_authenticated %}
+                            {% if user.img %}
+                                <a href="{% url 'profil' user.username %}" class="btn mr-2">
+                                    <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
+                                        <div class="media-img media-img-xs flex-shrink-0 rounded-full mr-2">
+                                            <img src="{{user.img.url}}" alt="avatar" class="rounded-full">
+                                        </div>
+                                        <div class="media-body p-0 border-left-0">
+                                            <h5 class="fs-14">{{user.username}}</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% else %}
+                                <a href="{% url 'profil' user.username %}" class="btn theme-btn theme-btn-outline mr-2"><i class="la la-user mr-1"></i>
+                                    {{user.username}}</a>
+                            {% endif %}
+                            <a href="{% url 'logout' %}" class="btn theme-btn"><i class="la la-sign-out-alt mr-1"></i>logout</a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn theme-btn theme-btn-outline mr-2"><i class="la la-user mr-1"></i>
+                                login</a>
+                            <a href="{% url 'signup' %}" class="btn theme-btn"><i class="la la-sign-out-alt mr-1"></i>signup</a>
+                        {% endif %}
+                        {% endcomment %}
+                        {% if user.is_authenticated %}
+                        <li class="dropdown user-dropdown" style="list-style: none;" >
+                            <a class="nav-link dropdown-toggle dropdown--toggle pl-2" href="#" id="userMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
+                                    <div class="media-img media-img-xs flex-shrink-0 rounded-full mr-2">
+                                        {% if user.img %}
+                                        <img src="{{ user.img.url }}" alt="user avatar" class="mr-4">
+                                        {% else %}
+                                        <img src="{% static 'img/people.jpg' %}" alt="user avatar" class="profile-img mr-4">
+                                        {% endif %}
+                                    </div>
+                                    <div class="media-body p-0 border-left-0">
+                                        <h5 class="fs-14"> {{ user.username }}</h5>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown--menu dropdown-menu-right mt-3 keep-open" aria-labelledby="userMenuDropdown">
+                                <h6 class="dropdown-header">Salom, {{user.username}}</h6>
+                                <div class="dropdown-divider border-top-gray mb-0"></div>
+                                <div class="dropdown-item-list">
+                                    <a class="dropdown-item" href="{% url 'user_profil' user.username %}"><i class="la la-user mr-2"></i>Profile</a>
+                                    <a class="dropdown-item" href="#"><i class="la la-bell mr-2"></i>Notifications</a>
+                                    <a class="dropdown-item" href="#"><i class="la la-user-plus mr-2"></i>Referrals</a>
+                                    <a class="dropdown-item" href="{% url 'profil' user.username %}"><i class="la la-gear mr-2"></i>Sozlamalar</a>
+                                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="la la-power-off mr-2"></i>Chiqish</a>
+                                </div>
+                            </div>
+                        </li>
+                        {% else %}
+                        <a href="{% url 'login' %}" class="btn theme-btn theme-btn-outline mr-2" data-toggle="tooltip" title="Profilga kirish"><i class="la la-sign-in mr-1"></i> Kirish</a>
+                        <a href="{% url 'signup' %}" class="btn theme-btn" data-toggle="tooltip" title="A'zo bo'lish"><i class="la la-user mr-1"></i> A'zo bo'lish</a>
+                        {% endif %}
+                    </div><!-- end nav-right-button -->
+                </div><!-- end menu-wrapper -->
+            </div><!-- end col-lg-10 -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+    <div class="off-canvas-menu custom-scrollbar-styled">
+        <div class="off-canvas-menu-close icon-element icon-element-sm shadow-sm" data-toggle="tooltip" data-placement="left" title="Close menu">
+            <i class="la la-times"></i>
+        </div><!-- end off-canvas-menu-close -->
+        <ul class="generic-list-item off-canvas-menu-list pt-90px">
+            <li>
+                <a href="{% url 'blog' %}">Bosh Sahifa</a>
+            </li>
+            <li>
+                <a href="{% url 'category_list' %}">Categories</a>
+            </li>
+            <li>
+                <a href="{% url 'blog_create' %}">Blog yaratish</a>
+            </li>
+        </ul>
+        <div class="off-canvas-btn-box px-4 pt-5 text-center">
+            {% if user.is_authenticated %}
+                            {% if user.img %}
+                                <a href="{% url 'profil' user.username %}" class="btn mr-2">
+                                    <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
+                                        <div class="media-img media-img-xs flex-shrink-0 rounded-full mr-2">
+                                            <img src="{{user.img.url}}" alt="avatar" class="rounded-full">
+                                        </div>
+                                        <div class="media-body p-0 border-left-0">
+                                            <h5 class="fs-14">{{user.username}}</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% else %}
+                                <a href="{% url 'profil' user.username %}" class="btn theme-btn theme-btn-outline mr-2"><i class="la la-user mr-1"></i>
+                                    {{user.username}}</a>
+                            {% endif %}
+                            <a href="{% url 'logout' %}" class="btn theme-btn"><i class="la la-sign-out-alt mr-1"></i>logout</a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn theme-btn theme-btn-outline mr-2"><i class="la la-user mr-1"></i>
+                                login</a>
+                            <a href="{% url 'signup' %}" class="btn theme-btn"><i class="la la-sign-out-alt mr-1"></i>signup</a>
+                        {% endif %}
+        </div>
+    </div><!-- end off-canvas-menu -->
+    <div class="body-overlay"></div>
+</header><!-- end header-area -->
+<!--======================================
+        END HEADER AREA
+======================================-->

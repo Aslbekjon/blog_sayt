@@ -1,0 +1,20 @@
+<div class="card card-item">
+    <div class="card-body">
+        <h3 class="fs-17 pb-3">Eng ko'p o'qilgan postlar</h3>
+        <div class="divider"><span></span></div>
+        <div class="sidebar-questions pt-3">
+            {% for i in top_blog %}
+            <div class="media media-card media--card media--card-2">
+                <div class="media-body">
+                    <h5><a href="{% url 'detail' i.slug %}">{{i.name}}</a></h5>
+                    <small class="meta">
+                        <span class="pr-1">O'qilgan: {{i.views}} martta.</span>
+                        <span class="pr-1"> by</span>
+                        <a href="{% url 'user_profil' i.user_id.username %}" class="author">{{i.user_id}}</a>
+                    </small>
+                </div>
+            </div><!-- end media -->
+            {% endfor %}
+        </div><!-- end sidebar-questions -->
+    </div>
+</div><!-- end card -->

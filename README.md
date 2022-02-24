@@ -6,6 +6,7 @@ git clone https://github.com/Aslbekjon/blog_sayt.git
 #for windows
 
 cd blog_sayt
+
 python -m venv venv
 
 .\venv\Scripts\activate

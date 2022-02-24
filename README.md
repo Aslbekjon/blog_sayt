@@ -1,6 +1,8 @@
 # blog_sayt
 Kodni ishlatish uchun qilinadigan amallar
 
+cmd ni ochib olamiz
+
 git clone https://github.com/Aslbekjon/blog_sayt.git
 
 #for windows

@@ -13,7 +13,7 @@ class UserLoginForm(AuthenticationForm):
     captcha = CaptchaField()
     class Meta:
         model = MyUser
-        fields = ('username', 'password1', 'captcha')
+        fields = ('username', 'papassword1ssword1', 'captcha')
 
 class UserProfilForm(UserChangeForm):
     class Meta(UserChangeForm):

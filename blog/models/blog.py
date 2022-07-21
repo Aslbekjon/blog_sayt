@@ -14,7 +14,7 @@ class Blog(models.Model):
     user_id = models.ForeignKey('MyUser', on_delete=models.CASCADE)
     tag = TaggableManager()
     views = models.PositiveBigIntegerField(default=0)
-    img = models.ImageField(upload_to='user/', default=True)
+    img = models.ImageField(upload_to='user/')
 
     def __str__(self):
         return self.name
